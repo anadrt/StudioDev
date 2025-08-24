@@ -1,0 +1,63 @@
+/* Arrière-plan dégradé du vert pâle au rose pâle */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #b8f0b8, #f7c6d9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centre verticalement */
+    align-items: center;     /* centre horizontalement */
+    height: 100vh;           /* prend toute la hauteur de l'écran */
+    text-align: center;
+}
+
+/* Titre et sous-titre */
+header h1 {
+    margin: 2;
+    font-size: 6em;
+}
+
+header h2 {
+    margin: 10px 0 40px 0;
+    font-size: 3.6em;
+    color: #444;
+}
+
+/* Bloc des icônes */
+.icones {
+    display: flex;
+    justify-content: center;
+    gap: 170px; /* espace entre les deux icônes */
+}
+
+/* Style des liens */
+.icones a {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 1.5em;
+}
+
+/* Style des images (agrandies) */
+.icones img {
+    width: 300px;
+    height: 300px;
+    transition: transform 0.2s;
+}
+
+.icones img:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    position: fixed;      /* reste collé en bas */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2); /* fond discret semi-transparent */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9em;
+}
