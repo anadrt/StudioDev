@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>⭕❌ Morpion</title>
+  <title>⭕❌ Morpion vs PC</title>
   <style>
     body { 
       text-align: center; 
@@ -21,10 +22,10 @@
     .cell {
       width: 100px; height: 100px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 36px; border: 2px solid white; /* bordure adaptée au fond */
+      font-size: 36px; border: 2px solid white;
       cursor: pointer;
-      background-color: grey; /* fond des cellules */
-      color: black; /* texte X/O noir sur les cellules */
+      background-color: grey;
+      color: black;
     }
     .cell:hover {
       transform: scale(1.05);
@@ -33,32 +34,35 @@
   </style>
 </head>
 <body>
-  <h1>⭕❌ Morpion</h1>
+  <h1>⭕❌ Morpion vs PC</h1>
   <div class="grid">
-    <div class="cell" onclick="play(this,0)"></div>
-    <div class="cell" onclick="play(this,1)"></div>
-    <div class="cell" onclick="play(this,2)"></div>
-    <div class="cell" onclick="play(this,3)"></div>
-    <div class="cell" onclick="play(this,4)"></div>
-    <div class="cell" onclick="play(this,5)"></div>
-    <div class="cell" onclick="play(this,6)"></div>
-    <div class="cell" onclick="play(this,7)"></div>
-    <div class="cell" onclick="play(this,8)"></div>
+    <div class="cell" onclick="jouerHumain(this,0)"></div>
+    <div class="cell" onclick="jouerHumain(this,1)"></div>
+    <div class="cell" onclick="jouerHumain(this,2)"></div>
+    <div class="cell" onclick="jouerHumain(this,3)"></div>
+    <div class="cell" onclick="jouerHumain(this,4)"></div>
+    <div class="cell" onclick="jouerHumain(this,5)"></div>
+    <div class="cell" onclick="jouerHumain(this,6)"></div>
+    <div class="cell" onclick="jouerHumain(this,7)"></div>
+    <div class="cell" onclick="jouerHumain(this,8)"></div>
   </div>
   <p id="result"></p>
+  <button onclick="recommencer()">🔄 Recommencer</button>
+  <button onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
 
   <script>
-    let turn = "X";
     let board = Array(9).fill("");
     let gameOver = false;
+    const humain = "O"; // toi
+    const pc = "X";     // l'ordinateur
 
-    function play(cell, index) {
+    function jouerHumain(cell, index) {
       if (board[index] !== "" || gameOver) return;
-      board[index] = turn;
-      cell.innerText = turn;
+      board[index] = humain;
+      cell.innerText = humain;
 
-      if (checkWin(turn)) {
-        document.getElementById("result").innerText = "🎉 Joueur " + turn + " a gagné !";
+      if (checkWin(humain)) {
+        document.getElementById("result").innerText = "🎉 Tu as gagné !";
         gameOver = true;
         return;
       }
@@ -69,16 +73,46 @@
         return;
       }
 
-      turn = (turn === "X") ? "O" : "X";
+      // PC joue après l'humain
+      jouerPC();
+    }
+
+    function jouerPC() {
+      let emptyIndexes = board.map((val,i)=> val === "" ? i : null).filter(v=>v!==null);
+      if(emptyIndexes.length === 0) return;
+
+      // Choisir une case aléatoire
+      let index = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+      board[index] = pc;
+      document.getElementsByClassName("cell")[index].innerText = pc;
+
+      if (checkWin(pc)) {
+        document.getElementById("result").innerText = "💻 L'ordinateur a gagné !";
+        gameOver = true;
+        return;
+      }
+
+      if (!board.includes("")) {
+        document.getElementById("result").innerText = "🤝 Match nul !";
+        gameOver = true;
+      }
     }
 
     function checkWin(p) {
       const wins = [
-        [0,1,2],[3,4,5],[6,7,8], // lignes
-        [0,3,6],[1,4,7],[2,5,8], // colonnes
-        [0,4,8],[2,4,6]          // diagonales
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
       ];
       return wins.some(combo => combo.every(i => board[i] === p));
+    }
+
+    function recommencer() {
+      board = Array(9).fill("");
+      gameOver = false;
+      document.getElementById("result").innerText = "";
+      const cells = document.getElementsByClassName("cell");
+      for(let cell of cells) cell.innerText = "";
     }
   </script>
 </body>

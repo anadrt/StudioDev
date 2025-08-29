@@ -15,6 +15,7 @@
     font-size: 1em; 
     padding: 5px; 
     border-radius: 5px;
+    margin: 5px;
   }
   button {
     cursor: pointer;
@@ -32,14 +33,24 @@
 <h1>Devine le nombre 🔢</h1>
 <p>Entre un nombre entre 1 et 100 :</p>
 <input type="number" id="guess" min="1" max="100">
-<button onclick="verifier()">Deviner</button>
+<button id="devinerBtn">Deviner</button>
 <p id="message"></p>
 
-<script>
-  const nombre = Math.floor(Math.random()*100)+1;
-  let essais = 0;
+<!-- Boutons supplémentaires -->
+<button id="replay">🔄 Recommencer</button>
+<button class="retour" onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
 
-  function verifier(){
+<script>
+  let nombre, essais;
+
+  function initGame() {
+    nombre = Math.floor(Math.random() * 100) + 1;
+    essais = 0;
+    document.getElementById('message').textContent = '';
+    document.getElementById('guess').value = '';
+  }
+
+  function verifier() {
     const val = Number(document.getElementById('guess').value);
     essais++;
     const message = document.getElementById('message');
@@ -51,6 +62,12 @@
       message.textContent = "Trop grand !";
     }
   }
+
+  document.getElementById('devinerBtn').onclick = verifier;
+  document.getElementById('replay').onclick = initGame;
+
+  // Initialise le jeu au chargement
+  initGame();
 </script>
 </body>
 </html>

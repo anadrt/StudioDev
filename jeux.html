@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Mini-jeux</title>
   <style>
-    /* Fond dégradé bleu foncé → violet → noir */
     body {
       font-family: 'Arial', sans-serif;
       background: linear-gradient(to bottom, #00008b, #4b0082, #000000);
@@ -17,16 +16,17 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
     }
 
-    /* Animation des bulles */
     .bulle {
       position: absolute;
       bottom: -50px;
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(255,255,255,0.7);
       border-radius: 50%;
       opacity: 0.7;
       animation: monter 8s linear infinite;
+      z-index: 0;
     }
 
     @keyframes monter {
@@ -40,34 +40,17 @@
       width: 100%;
       text-align: center;
       padding: 0 20px;
+      z-index: 1;
     }
 
-    h1 {
-      font-size: 3em;
-      margin: 0;
-    }
+    h1 { font-size: 3em; margin: 0; }
+    p { margin-top: 10px; font-size: 1.2em; color: #ddd; }
 
-    p {
-      margin-top: 10px;
-      font-size: 1.2em;
-      color: #ddd;
-    }
+    .colonnes { display: flex; gap: 50px; z-index: 1; position: relative; }
+    .colonne { display: flex; flex-direction: column; gap: 20px; }
 
-    /* Conteneur des colonnes */
-    .colonnes {
-      display: flex;
-      gap: 50px;
-    }
-
-    .colonne {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* Cartes gris */
     .card {
-      background: grey;         
+      background: grey;
       border-radius: 15px;
       padding: 30px;
       width: 250px;
@@ -80,18 +63,36 @@
       justify-content: space-between;
       align-items: center;
       padding-right: 20px;
-      color: black; /* texte noir sur les cartes */
+      color: black;
     }
 
     .card:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-      background: #bbb;         
+      background: #bbb;
     }
 
-    .emoji {
-      font-size: 24px;
-      margin-left: 10px;
+    .emoji { font-size: 24px; margin-left: 10px; }
+
+    .retour {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      z-index: 1;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .retour:hover {
+      background-color: #666;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -102,15 +103,12 @@
   </header>
 
   <div class="colonnes">
-    <!-- Colonne gauche -->
     <div class="colonne">
       <a class="card" href="clic-rapide.html">Jeu du clic rapide <span class="emoji">⚡</span></a>
       <a class="card" href="pendu.html">Le pendu <span class="emoji">🔤</span></a>
       <a class="card" href="morpion.html">Morpion <span class="emoji">⭕❌</span></a>
       <a class="card" href="quiz.html">Quiz <span class="emoji">❓</span></a>
     </div>
-
-    <!-- Colonne droite -->
     <div class="colonne">
       <a class="card" href="devine-le-nombre.html">Devine le nombre <span class="emoji">🔢</span></a>
       <a class="card" href="jeu-de-memoire.html">Jeu de mémoire <span class="emoji">🃏</span></a>
@@ -119,7 +117,8 @@
     </div>
   </div>
 
-  <!-- Bulles -->
+  <button class="retour" onclick="window.location.href='index.html'">⬅ Retour à l'accueil</button>
+
   <script>
     const nbBulles = 80;
     for(let i=0; i<nbBulles; i++){

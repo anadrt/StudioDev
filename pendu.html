@@ -27,6 +27,7 @@
       background-color: white;
       color: black;
       transition: transform 0.2s;
+      margin: 5px;
     }
     button:hover {
       transform: scale(1.05);
@@ -41,14 +42,22 @@
   <button onclick="deviner()">Essayer</button>
   <p id="erreurs">Erreurs : 0</p>
   <p id="message"></p>
+  <button onclick="recommencer()">🔄 Recommencer</button>
+  <button class="retour" onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
 
   <script>
     const mots = ["CHAT", "ORDINATEUR", "VOITURE", "PYTHON", "JAVASCRIPT"];
-    let mot = mots[Math.floor(Math.random() * mots.length)];
-    let trouve = Array(mot.length).fill("_");
-    let erreurs = 0;
+    let mot, trouve, erreurs;
 
-    document.getElementById("mot").innerText = trouve.join(" ");
+    function initGame(){
+      mot = mots[Math.floor(Math.random() * mots.length)];
+      trouve = Array(mot.length).fill("_");
+      erreurs = 0;
+      document.getElementById("mot").innerText = trouve.join(" ");
+      document.getElementById("erreurs").innerText = "Erreurs : 0";
+      document.getElementById("message").innerText = "";
+      document.getElementById("lettre").value = "";
+    }
 
     function deviner() {
       let l = document.getElementById("lettre").value.toUpperCase();
@@ -71,6 +80,13 @@
         document.getElementById("message").innerText = "💀 Perdu... Le mot était " + mot;
       }
     }
+
+    function recommencer(){
+      initGame();
+    }
+
+    // Initialisation au chargement
+    initGame();
   </script>
 </body>
 </html>

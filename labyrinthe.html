@@ -16,33 +16,86 @@ canvas {
   margin: 20px auto; 
   border: 3px solid white; 
 }
+button {
+  margin: 10px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  transition: transform 0.2s;
+}
+button:hover { transform: scale(1.05); }
 </style>
 </head>
 <body>
 <h1>Labyrinthe 🎯</h1>
-<p>Utilisez les flèches pour atteindre le carré vert.</p>
+<p>Utilisez les flèches pour atteindre le carré vert. Si vous touchez un mur, retour au départ !</p>
 <canvas id="lab" width="400" height="400"></canvas>
+<button id="rejouer">🔄 Recommencer</button>
+<button onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
 
 <script>
-const canvas=document.getElementById('lab');
-const ctx=canvas.getContext('2d');
-const taille=40;
-const lab=[
-  [0,0,1,0,0,0,0,0,0,0],
-  [0,1,1,0,1,1,1,1,0,0],
-  [0,1,0,0,0,0,0,1,0,0],
-  [0,1,0,1,1,1,0,1,1,0],
-  [0,0,0,1,0,0,0,0,1,0],
-  [0,1,0,1,0,1,1,0,1,0],
-  [0,1,0,0,0,0,1,0,0,0],
-  [0,1,1,1,1,0,1,1,1,0],
-  [0,0,0,0,1,0,0,0,0,0],
-  [0,1,1,0,0,0,1,1,1,0]
+const canvas = document.getElementById('lab');
+const ctx = canvas.getContext('2d');
+const taille = 40;
+
+let joueur = {x:0, y:0};
+let sortie = {x:9, y:9};
+let lab = [];
+
+// Liste de labyrinthes plus difficiles
+const labyrinthes = [
+  [
+    [0,0,1,0,0,0,0,0,0,0],
+    [0,1,1,0,1,1,1,1,0,0],
+    [0,1,0,0,0,0,0,1,0,0],
+    [0,1,0,1,1,1,0,1,1,0],
+    [0,0,0,1,0,0,0,0,1,0],
+    [0,1,0,1,0,1,1,0,1,0],
+    [0,1,0,0,0,0,1,0,0,0],
+    [0,1,1,1,1,0,1,1,1,0],
+    [0,0,0,0,1,0,0,0,0,0],
+    [0,1,1,0,0,0,1,1,1,0]
+  ],
+  [
+    [0,1,0,0,0,1,0,1,0,0],
+    [0,1,1,1,0,1,0,1,1,0],
+    [0,0,0,1,0,0,0,0,1,0],
+    [1,1,0,1,1,1,1,0,1,0],
+    [0,0,0,0,0,0,1,0,0,0],
+    [0,1,1,1,1,0,1,1,1,0],
+    [0,0,0,0,1,0,0,0,0,0],
+    [1,1,0,1,0,1,1,1,0,1],
+    [0,0,0,1,0,0,0,0,0,0],
+    [0,1,0,1,1,1,1,1,0,0]
+  ],
+  [
+    [0,0,1,0,1,0,1,0,1,0],
+    [1,0,1,0,1,0,1,0,1,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,1,1,1,1,1,1,1,1,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [1,0,1,0,1,0,1,0,1,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,1,1,1,1,1,1,1,1,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [1,0,1,0,1,0,1,0,1,0]
+  ]
 ];
-let joueur={x:0,y:0};
-let sortie={x:9,y:9};
+
+function choisirLabyrinthe(){
+  let index = Math.floor(Math.random()*labyrinthes.length);
+  lab = labyrinthes[index];
+  joueur = {x:0, y:0};
+  sortie = {x:9, y:9};
+  dessiner();
+}
 
 function dessiner(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   for(let i=0;i<10;i++){
     for(let j=0;j<10;j++){
       if(i===joueur.y && j===joueur.x) ctx.fillStyle='red';
@@ -53,7 +106,6 @@ function dessiner(){
     }
   }
 }
-dessiner();
 
 document.addEventListener('keydown', e=>{
   let nx=joueur.x, ny=joueur.y;
@@ -61,10 +113,29 @@ document.addEventListener('keydown', e=>{
   if(e.key==='ArrowDown') ny++;
   if(e.key==='ArrowLeft') nx--;
   if(e.key==='ArrowRight') nx++;
-  if(ny>=0 && ny<10 && nx>=0 && nx<10 && lab[ny][nx]===0){ joueur.x=nx; joueur.y=ny; }
+  
+  // collision avec mur -> retour départ
+  if(ny>=0 && ny<10 && nx>=0 && nx<10){
+    if(lab[ny][nx]===1){
+      joueur = {x:0, y:0};
+    } else {
+      joueur.x=nx;
+      joueur.y=ny;
+    }
+  }
+  
   dessiner();
-  if(joueur.x===sortie.x && joueur.y===sortie.y){ alert("Félicitations, vous avez gagné !"); }
+  
+  if(joueur.x===sortie.x && joueur.y===sortie.y){ 
+    alert("🎉 Félicitations, vous avez gagné !");
+  }
 });
+
+// Bouton recommencer
+document.getElementById('rejouer').onclick = choisirLabyrinthe;
+
+// Lancer le premier labyrinthe
+choisirLabyrinthe();
 </script>
 </body>
 </html>
