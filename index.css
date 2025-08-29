@@ -109,10 +109,14 @@ footer {
     transform: scale(1.1); 
 }
 
-.jeux-container p {
-    margin: 5px 0 0 0;
-    font-size: 0.9em;
+.jeux-logo {
+    width: 120px;   
+    height: auto;
+}
+
+.jeux-texte {
+    margin: 5px 0 0 0;  
+    font-size: 0.9em;   
     color: #333;
     font-family: Arial, sans-serif;
-    text-align: center;
 }
