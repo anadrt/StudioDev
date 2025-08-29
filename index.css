@@ -1,5 +1,5 @@
-/* Arrière-plan dégradé du vert pâle au rose pâle */
-body {
+/* Arrière-plan dégradé du vert pâle au rose pâle */ 
+body { 
     margin: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(to right, #b8f0b8, #f7c6d9);
@@ -13,7 +13,7 @@ body {
 
 /* Titre et sous-titre */
 header h1 {
-    margin: 2;
+    margin: 2px;            /* (petite correction) */
     font-size: 6em;
 }
 
@@ -39,14 +39,14 @@ header h2 {
     font-size: 1.5em;
 }
 
-/* Style des images (agrandies) */
-.icones img {
+/* Images des icônes — on EXCLUT la fleur pour ne pas la mettre en 300px */
+.icones img:not(.fleur-logo) {
     width: 300px;
     height: 300px;
     transition: transform 0.2s;
 }
 
-.icones img:hover {
+.icones img:not(.fleur-logo):hover {
     transform: scale(1.05);
 }
 
@@ -60,4 +60,29 @@ footer {
     text-align: center;
     padding: 2px 0;
     font-size: 0.9em;
+}
+
+/* ✅ Conteneur pour fleur + texte Wordpress */
+.fleur-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column; /* Fleur au-dessus du texte */
+    align-items: center;    /* Centrer le texte sous la fleur */
+    z-index: 10;
+}
+
+/* ✅ Logo fleur en haut à gauche */
+.fleur-logo {
+    width: 120px;   /* <-- taille réduite (change si besoin) */
+    height: auto;
+}
+
+/* ✅ Texte "Site Wordpress" sous la fleur */
+.fleur-texte {
+    margin: 5px 0 0 0;  /* petit espace sous l’image */
+    font-size: 0.9em;   /* texte plus discret */
+    color: #333;
+    font-family: Arial, sans-serif;
 }
