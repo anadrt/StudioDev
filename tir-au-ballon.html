@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Tir au ballon</title>
+<style>
+  body { 
+    font-family: Arial; 
+    text-align: center; 
+    background-color: #00008b; /* fond bleu foncé */
+    color: white; 
+    overflow: hidden; 
+    margin: 0; 
+    padding: 0;
+  }
+  .bulle { 
+    position: absolute; 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    background: red; 
+    cursor: pointer; 
+  }
+  #score { 
+    font-size: 1.5em; 
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+<h1>Tir au ballon 🎈</h1>
+<p id="score">Score : 0</p>
+
+<script>
+let score = 0;
+function creerBulle(){
+  let bulle = document.createElement('div');
+  bulle.className = 'bulle';
+  bulle.style.left = Math.random()*(window.innerWidth-50) + 'px';
+  bulle.style.top = window.innerHeight + 'px';
+  document.body.appendChild(bulle);
+
+  bulle.onclick = ()=>{
+    score++; 
+    document.getElementById('score').textContent = 'Score : ' + score;
+    document.body.removeChild(bulle);
+  }
+
+  let id = setInterval(()=>{
+    let top = parseInt(bulle.style.top);
+    if(top <= -50){ 
+      document.body.removeChild(bulle); 
+      clearInterval(id); 
+    } else bulle.style.top = top - 2 + 'px';
+  },10);
+}
+
+setInterval(creerBulle, 1000);
+</script>
+</body>
+</html>

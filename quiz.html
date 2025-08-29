@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>❓ Quiz</title>
+  <style>
+    body { 
+      text-align: center; 
+      font-family: Arial; 
+      margin-top: 50px; 
+      background-color: #000000; /* fond noir */
+      color: white; 
+    }
+    .question { 
+      font-size: 20px; 
+      margin-bottom: 20px; 
+    }
+    button { 
+      display: block; 
+      margin: 10px auto; 
+      padding: 10px 20px; 
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: grey;
+      color: black;
+      font-size: 16px;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>❓ Quiz</h1>
+  <div id="quiz"></div>
+  <p id="result"></p>
+
+  <script>
+    const questions = [
+      { q: "Quelle est la capitale de la France ?", a: ["Paris","Londres","Rome"], correct: 0 },
+      { q: "Combien font 2 + 2 ?", a: ["3","4","5"], correct: 1 },
+      { q: "Quel langage sert à styliser les pages web ?", a: ["HTML","CSS","Python"], correct: 1 }
+    ];
+
+    let index = 0, score = 0;
+    const quizDiv = document.getElementById("quiz");
+
+    function showQuestion() {
+      if (index >= questions.length) {
+        document.getElementById("result").innerText = "Score final : " + score + "/" + questions.length;
+        quizDiv.innerHTML = "";
+        return;
+      }
+
+      let q = questions[index];
+      quizDiv.innerHTML = `<div class='question'>${q.q}</div>`;
+      q.a.forEach((rep, i) => {
+        let btn = document.createElement("button");
+        btn.innerText = rep;
+        btn.onclick = () => {
+          if (i === q.correct) score++;
+          index++;
+          showQuestion();
+        };
+        quizDiv.appendChild(btn);
+      });
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>

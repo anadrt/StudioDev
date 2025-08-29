@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>🔤 Jeu du Pendu</title>
+  <style>
+    body { 
+      text-align: center; 
+      font-family: Arial; 
+      margin-top: 50px; 
+      background-color: #00008b; /* fond bleu foncé */
+      color: white; 
+    }
+    #mot { font-size: 30px; letter-spacing: 10px; }
+    input { 
+      padding: 10px; 
+      font-size: 18px; 
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      background-color: white;
+      color: black;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>🔤 Le Pendu</h1>
+  <p>Devine le mot en entrant une lettre</p>
+  <p id="mot"></p>
+  <input id="lettre" maxlength="1" placeholder="Tape une lettre">
+  <button onclick="deviner()">Essayer</button>
+  <p id="erreurs">Erreurs : 0</p>
+  <p id="message"></p>
+
+  <script>
+    const mots = ["CHAT", "ORDINATEUR", "VOITURE", "PYTHON", "JAVASCRIPT"];
+    let mot = mots[Math.floor(Math.random() * mots.length)];
+    let trouve = Array(mot.length).fill("_");
+    let erreurs = 0;
+
+    document.getElementById("mot").innerText = trouve.join(" ");
+
+    function deviner() {
+      let l = document.getElementById("lettre").value.toUpperCase();
+      document.getElementById("lettre").value = "";
+      if (!l.match(/[A-Z]/)) return;
+
+      if (mot.includes(l)) {
+        for (let i = 0; i < mot.length; i++) {
+          if (mot[i] === l) trouve[i] = l;
+        }
+        document.getElementById("mot").innerText = trouve.join(" ");
+      } else {
+        erreurs++;
+        document.getElementById("erreurs").innerText = "Erreurs : " + erreurs;
+      }
+
+      if (!trouve.includes("_")) {
+        document.getElementById("message").innerText = "🎉 Gagné ! Le mot était " + mot;
+      } else if (erreurs >= 6) {
+        document.getElementById("message").innerText = "💀 Perdu... Le mot était " + mot;
+      }
+    }
+  </script>
+</body>
+</html>

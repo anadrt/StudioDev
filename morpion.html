@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>⭕❌ Morpion</title>
+  <style>
+    body { 
+      text-align: center; 
+      font-family: Arial; 
+      margin-top: 50px; 
+      background-color: #4b0082; /* fond violet foncé */
+      color: white; 
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 5px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 100px; height: 100px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; border: 2px solid white; /* bordure adaptée au fond */
+      cursor: pointer;
+      background-color: grey; /* fond des cellules */
+      color: black; /* texte X/O noir sur les cellules */
+    }
+    .cell:hover {
+      transform: scale(1.05);
+      transition: 0.2s;
+    }
+  </style>
+</head>
+<body>
+  <h1>⭕❌ Morpion</h1>
+  <div class="grid">
+    <div class="cell" onclick="play(this,0)"></div>
+    <div class="cell" onclick="play(this,1)"></div>
+    <div class="cell" onclick="play(this,2)"></div>
+    <div class="cell" onclick="play(this,3)"></div>
+    <div class="cell" onclick="play(this,4)"></div>
+    <div class="cell" onclick="play(this,5)"></div>
+    <div class="cell" onclick="play(this,6)"></div>
+    <div class="cell" onclick="play(this,7)"></div>
+    <div class="cell" onclick="play(this,8)"></div>
+  </div>
+  <p id="result"></p>
+
+  <script>
+    let turn = "X";
+    let board = Array(9).fill("");
+    let gameOver = false;
+
+    function play(cell, index) {
+      if (board[index] !== "" || gameOver) return;
+      board[index] = turn;
+      cell.innerText = turn;
+
+      if (checkWin(turn)) {
+        document.getElementById("result").innerText = "🎉 Joueur " + turn + " a gagné !";
+        gameOver = true;
+        return;
+      }
+
+      if (!board.includes("")) {
+        document.getElementById("result").innerText = "🤝 Match nul !";
+        gameOver = true;
+        return;
+      }
+
+      turn = (turn === "X") ? "O" : "X";
+    }
+
+    function checkWin(p) {
+      const wins = [
+        [0,1,2],[3,4,5],[6,7,8], // lignes
+        [0,3,6],[1,4,7],[2,5,8], // colonnes
+        [0,4,8],[2,4,6]          // diagonales
+      ];
+      return wins.some(combo => combo.every(i => board[i] === p));
+    }
+  </script>
+</body>
+</html>

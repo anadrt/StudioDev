@@ -5,15 +5,15 @@ body {
     background: linear-gradient(to right, #b8f0b8, #f7c6d9);
     display: flex;
     flex-direction: column;
-    justify-content: center; /* centre verticalement */
-    align-items: center;     /* centre horizontalement */
-    height: 100vh;           /* prend toute la hauteur de l'écran */
+    justify-content: center; 
+    align-items: center;     
+    height: 100vh;           
     text-align: center;
 }
 
 /* Titre et sous-titre */
 header h1 {
-    margin: 2px;            /* (petite correction) */
+    margin: 2px;            
     font-size: 6em;
 }
 
@@ -27,7 +27,7 @@ header h2 {
 .icones {
     display: flex;
     justify-content: center;
-    gap: 170px; /* espace entre les deux icônes */
+    gap: 170px; 
 }
 
 /* Style des liens */
@@ -51,11 +51,11 @@ header h2 {
 }
 
 footer {
-    position: fixed;      /* reste collé en bas */
+    position: fixed;      
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.2); /* fond discret semi-transparent */
+    background-color: rgba(0, 0, 0, 0.2); 
     color: white;
     text-align: center;
     padding: 2px 0;
@@ -68,21 +68,51 @@ footer {
     top: 20px;
     left: 20px;
     display: flex;
-    flex-direction: column; /* Fleur au-dessus du texte */
-    align-items: center;    /* Centrer le texte sous la fleur */
+    flex-direction: column; 
+    align-items: center;    
     z-index: 10;
 }
 
-/* ✅ Logo fleur en haut à gauche */
+/* Logo fleur en haut à gauche */
 .fleur-logo {
-    width: 120px;   /* <-- taille réduite (change si besoin) */
+    width: 120px;   
     height: auto;
 }
 
-/* ✅ Texte "Site Wordpress" sous la fleur */
+/* Texte "Site Wordpress" sous la fleur */
 .fleur-texte {
-    margin: 5px 0 0 0;  /* petit espace sous l’image */
-    font-size: 0.9em;   /* texte plus discret */
+    margin: 5px 0 0 0;  
+    font-size: 0.9em;   
     color: #333;
     font-family: Arial, sans-serif;
+}
+
+/* ✅ Conteneur Mini-Jeux en haut à droite */
+.jeux-container {
+    position: absolute;  /* position par rapport à la page */
+    top: 20px;           /* distance depuis le haut */
+    right: 20px;         /* distance depuis la droite */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;         /* pour être au-dessus des autres éléments */
+}
+
+.jeux-container img {
+    width: 180px;       
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.jeux-container img:hover {
+    transform: scale(1.1); 
+}
+
+.jeux-container p {
+    margin: 5px 0 0 0;
+    font-size: 0.9em;
+    color: #333;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Labyrinthe</title>
+<style>
+body { 
+  font-family: Arial; 
+  text-align: center; 
+  background-color: #4b0082; /* fond violet foncé */
+  color: white; 
+}
+canvas { 
+  background: grey; 
+  display: block; 
+  margin: 20px auto; 
+  border: 3px solid white; 
+}
+</style>
+</head>
+<body>
+<h1>Labyrinthe 🎯</h1>
+<p>Utilisez les flèches pour atteindre le carré vert.</p>
+<canvas id="lab" width="400" height="400"></canvas>
+
+<script>
+const canvas=document.getElementById('lab');
+const ctx=canvas.getContext('2d');
+const taille=40;
+const lab=[
+  [0,0,1,0,0,0,0,0,0,0],
+  [0,1,1,0,1,1,1,1,0,0],
+  [0,1,0,0,0,0,0,1,0,0],
+  [0,1,0,1,1,1,0,1,1,0],
+  [0,0,0,1,0,0,0,0,1,0],
+  [0,1,0,1,0,1,1,0,1,0],
+  [0,1,0,0,0,0,1,0,0,0],
+  [0,1,1,1,1,0,1,1,1,0],
+  [0,0,0,0,1,0,0,0,0,0],
+  [0,1,1,0,0,0,1,1,1,0]
+];
+let joueur={x:0,y:0};
+let sortie={x:9,y:9};
+
+function dessiner(){
+  for(let i=0;i<10;i++){
+    for(let j=0;j<10;j++){
+      if(i===joueur.y && j===joueur.x) ctx.fillStyle='red';
+      else if(i===sortie.y && j===sortie.x) ctx.fillStyle='green';
+      else ctx.fillStyle=lab[i][j]===1?'black':'white';
+      ctx.fillRect(j*taille,i*taille,taille,taille);
+      ctx.strokeRect(j*taille,i*taille,taille,taille);
+    }
+  }
+}
+dessiner();
+
+document.addEventListener('keydown', e=>{
+  let nx=joueur.x, ny=joueur.y;
+  if(e.key==='ArrowUp') ny--;
+  if(e.key==='ArrowDown') ny++;
+  if(e.key==='ArrowLeft') nx--;
+  if(e.key==='ArrowRight') nx++;
+  if(ny>=0 && ny<10 && nx>=0 && nx<10 && lab[ny][nx]===0){ joueur.x=nx; joueur.y=ny; }
+  dessiner();
+  if(joueur.x===sortie.x && joueur.y===sortie.y){ alert("Félicitations, vous avez gagné !"); }
+});
+</script>
+</body>
+</html>
