@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Check-list</title>
+  <link rel="stylesheet" href="style-checklist.css">
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Check-list ✨</h1>
+
+    <ul class="checklist" id="checklist">
+      <li><input type="checkbox"><input type="text" placeholder="Écris ta première tâche..."></li>
+      <li><input type="checkbox"><input type="text" placeholder="Écris ta deuxième tâche..."></li>
+      <li><input type="checkbox"><input type="text" placeholder="Écris une autre tâche..."></li>
+      <li><input type="checkbox"><input type="text" placeholder="Et une autre tâche..."></li>
+      <li><input type="checkbox"><input type="text" placeholder="Encore une tâche..."></li>
+    </ul>
+
+    <!-- Bouton pour ajouter une tâche -->
+    <button id="add-task-btn" class="back-button" style="margin-top: 15px;">➕ Ajouter une tâche</button>
+    
+    <!-- Bouton pour supprimer une tâche -->
+    <button id="remove-task-btn" class="back-button" style="margin-top: 10px; background:#ffa1a1;">➖ Supprimer une tâche</button>
+
+    <!-- Bouton retour -->
+    <a href="../index.html" class="back-button" style="margin-top: 10px;">⬅ Retour à l’accueil</a>
+  </div>
+
+  <script>
+    const addBtn = document.getElementById("add-task-btn");
+    const removeBtn = document.getElementById("remove-task-btn");
+    const checklist = document.getElementById("checklist");
+
+    // Fonction pour sauvegarder la checklist dans localStorage
+    function saveChecklist() {
+      const items = [];
+      checklist.querySelectorAll("li").forEach(li => {
+        const checkbox = li.querySelector("input[type='checkbox']").checked;
+        const text = li.querySelector("input[type='text']").value;
+        items.push({ checkbox, text });
+      });
+      localStorage.setItem("myChecklist", JSON.stringify(items));
+    }
+
+    // Fonction pour charger la checklist depuis localStorage
+    function loadChecklist() {
+      const saved = localStorage.getItem("myChecklist");
+      if(saved) {
+        checklist.innerHTML = "";
+        const items = JSON.parse(saved);
+        items.forEach(item => {
+          const li = document.createElement("li");
+          li.innerHTML = `<input type="checkbox" ${item.checkbox ? "checked" : ""}>
+                          <input type="text" value="${item.text}">`;
+          checklist.appendChild(li);
+        });
+      }
+    }
+
+    // Charger la checklist au démarrage
+    loadChecklist();
+
+    // Ajouter une tâche
+    addBtn.addEventListener("click", () => {
+      const li = document.createElement("li");
+      li.innerHTML = '<input type="checkbox"><input type="text" placeholder="Écris une nouvelle tâche...">';
+      checklist.appendChild(li);
+      li.scrollIntoView({ behavior: "smooth" });
+      saveChecklist();
+    });
+
+    // Supprimer la dernière tâche
+    removeBtn.addEventListener("click", () => {
+      const items = checklist.getElementsByTagName("li");
+      if(items.length > 0){
+        checklist.removeChild(items[items.length - 1]);
+        saveChecklist();
+      }
+    });
+
+    // Sauvegarder automatiquement quand on modifie une tâche ou coche/décoche une case
+    checklist.addEventListener("input", saveChecklist);
+    checklist.addEventListener("change", saveChecklist);
+
+  </script>
+</body>
+</html>

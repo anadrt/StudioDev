@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Devine le nombre</title>
+<style>
+  body { 
+    font-family: Arial; 
+    text-align: center; 
+    background-color: #006400; /* fond vert foncé */
+    color: white; 
+    margin-top: 50px;
+  }
+  input, button { 
+    font-size: 1em; 
+    padding: 5px; 
+    border-radius: 5px;
+    margin: 5px;
+  }
+  button {
+    cursor: pointer;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    transition: transform 0.2s;
+  }
+  button:hover {
+    transform: scale(1.05);
+  }
+</style>
+</head>
+<body>
+<h1>Devine le nombre 🔢</h1>
+<p>Entre un nombre entre 1 et 100 :</p>
+<input type="number" id="guess" min="1" max="100">
+<button id="devinerBtn">Deviner</button>
+<p id="message"></p>
+
+<!-- Boutons supplémentaires -->
+<button id="replay">🔄 Recommencer</button>
+<button class="retour" onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
+
+<script>
+  let nombre, essais;
+
+  function initGame() {
+    nombre = Math.floor(Math.random() * 100) + 1;
+    essais = 0;
+    document.getElementById('message').textContent = '';
+    document.getElementById('guess').value = '';
+  }
+
+  function verifier() {
+    const val = Number(document.getElementById('guess').value);
+    essais++;
+    const message = document.getElementById('message');
+    if(val === nombre){
+      message.textContent = `Bravo ! Vous avez trouvé en ${essais} essais !`;
+    } else if(val < nombre){
+      message.textContent = "Trop petit !";
+    } else {
+      message.textContent = "Trop grand !";
+    }
+  }
+
+  document.getElementById('devinerBtn').onclick = verifier;
+  document.getElementById('replay').onclick = initGame;
+
+  // Initialise le jeu au chargement
+  initGame();
+</script>
+</body>
+</html>

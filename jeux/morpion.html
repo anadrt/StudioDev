@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>⭕❌ Morpion vs PC</title>
+  <style>
+    body { 
+      text-align: center; 
+      font-family: Arial; 
+      margin-top: 50px; 
+      background-color: #4b0082; /* fond violet foncé */
+      color: white; 
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 5px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 100px; height: 100px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; border: 2px solid white;
+      cursor: pointer;
+      background-color: grey;
+      color: black;
+    }
+    .cell:hover {
+      transform: scale(1.05);
+      transition: 0.2s;
+    }
+  </style>
+</head>
+<body>
+  <h1>⭕❌ Morpion vs PC</h1>
+  <div class="grid">
+    <div class="cell" onclick="jouerHumain(this,0)"></div>
+    <div class="cell" onclick="jouerHumain(this,1)"></div>
+    <div class="cell" onclick="jouerHumain(this,2)"></div>
+    <div class="cell" onclick="jouerHumain(this,3)"></div>
+    <div class="cell" onclick="jouerHumain(this,4)"></div>
+    <div class="cell" onclick="jouerHumain(this,5)"></div>
+    <div class="cell" onclick="jouerHumain(this,6)"></div>
+    <div class="cell" onclick="jouerHumain(this,7)"></div>
+    <div class="cell" onclick="jouerHumain(this,8)"></div>
+  </div>
+  <p id="result"></p>
+  <button onclick="recommencer()">🔄 Recommencer</button>
+  <button onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
+
+  <script>
+    let board = Array(9).fill("");
+    let gameOver = false;
+    const humain = "O"; // toi
+    const pc = "X";     // l'ordinateur
+
+    function jouerHumain(cell, index) {
+      if (board[index] !== "" || gameOver) return;
+      board[index] = humain;
+      cell.innerText = humain;
+
+      if (checkWin(humain)) {
+        document.getElementById("result").innerText = "🎉 Tu as gagné !";
+        gameOver = true;
+        return;
+      }
+
+      if (!board.includes("")) {
+        document.getElementById("result").innerText = "🤝 Match nul !";
+        gameOver = true;
+        return;
+      }
+
+      // PC joue après l'humain
+      jouerPC();
+    }
+
+    function jouerPC() {
+      let emptyIndexes = board.map((val,i)=> val === "" ? i : null).filter(v=>v!==null);
+      if(emptyIndexes.length === 0) return;
+
+      // Choisir une case aléatoire
+      let index = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+      board[index] = pc;
+      document.getElementsByClassName("cell")[index].innerText = pc;
+
+      if (checkWin(pc)) {
+        document.getElementById("result").innerText = "💻 L'ordinateur a gagné !";
+        gameOver = true;
+        return;
+      }
+
+      if (!board.includes("")) {
+        document.getElementById("result").innerText = "🤝 Match nul !";
+        gameOver = true;
+      }
+    }
+
+    function checkWin(p) {
+      const wins = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      return wins.some(combo => combo.every(i => board[i] === p));
+    }
+
+    function recommencer() {
+      board = Array(9).fill("");
+      gameOver = false;
+      document.getElementById("result").innerText = "";
+      const cells = document.getElementsByClassName("cell");
+      for(let cell of cells) cell.innerText = "";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Jeu de mémoire</title>
+<style>
+  body { font-family: Arial; text-align:center; background: #00008b; color: white; }
+  .grille { display: grid; grid-template-columns: repeat(4, 80px); grid-gap: 10px; justify-content: center; margin-top:20px;}
+  .carte { width:80px; height:80px; background: grey; border-radius: 10px; display:flex; justify-content:center; align-items:center; font-size:2em; cursor:pointer; }
+  button { 
+    margin-top: 15px; 
+    padding: 10px 15px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    border: none; 
+    cursor: pointer; 
+    background-color: white; 
+    color: black; 
+    transition: transform 0.2s;
+  }
+  button:hover { transform: scale(1.05); }
+</style>
+</head>
+<body>
+<h1>Jeu de mémoire 🃏</h1>
+<p>Retourne deux cartes identiques pour les garder visibles.</p>
+<div class="grille" id="grille"></div>
+<button onclick="recommencer()">🔄 Recommencer</button>
+<button onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
+
+<script>
+const toutesEmojis = ['🍎','🍌','🍇','🍉','🍒','🍍','🥝','🍑']; // plus de choix pour varier
+let symbols = [];
+let grille = document.getElementById('grille');
+let first = null, second = null;
+let lock = false;
+
+function melanger(array) {
+  return array.sort(() => 0.5 - Math.random());
+}
+
+function creerGrille() {
+  grille.innerHTML = '';
+  first = null; 
+  second = null;
+  lock = false;
+
+  // Prendre 4 paires aléatoires de toutesEmojis pour le jeu (8 cartes)
+  let emojisChoisis = melanger([...toutesEmojis]).slice(0, 4);
+  symbols = [...emojisChoisis, ...emojisChoisis]; // créer les paires
+  symbols = melanger(symbols); // mélanger les cartes
+
+  symbols.forEach(sym => {
+    let carte = document.createElement('div');
+    carte.className = 'carte';
+    carte.dataset.sym = sym;
+    carte.textContent = '';
+    carte.addEventListener('click', () => {
+      if(lock || carte.textContent!=='' || carte===first) return;
+      carte.textContent=sym;
+
+      if(!first){
+        first=carte;
+      } else {
+        second=carte;
+        if(first.dataset.sym === second.dataset.sym){
+          first=null; second=null;
+        } else {
+          lock=true;
+          setTimeout(()=>{
+            first.textContent='';
+            second.textContent='';
+            first=null;
+            second=null;
+            lock=false;
+          }, 700);
+        }
+      }
+    });
+    grille.appendChild(carte);
+  });
+}
+
+function recommencer() {
+  creerGrille();
+}
+
+// Initialisation
+recommencer();
+</script>
+</body>
+</html>

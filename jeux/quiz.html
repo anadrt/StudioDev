@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>❓ Quiz</title>
+<style>
+  body { 
+    text-align: center; 
+    font-family: Arial; 
+    margin-top: 50px; 
+    background-color: #000000; 
+    color: white; 
+  }
+  .question { 
+    font-size: 20px; 
+    margin-bottom: 20px; 
+  }
+  button { 
+    display: block; 
+    margin: 10px auto; 
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: grey;
+    color: black;
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+  button:hover {
+    transform: scale(1.05);
+  }
+</style>
+</head>
+<body>
+<h1>❓ Quiz</h1>
+<div id="quiz"></div>
+<p id="result"></p>
+<button onclick="recommencer()">🔄 Recommencer</button>
+<button onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
+
+<script>
+const toutesQuestions = [
+  { q: "Quelle est la capitale de la France ?", a: ["Paris","Londres","Rome"], correct: 0 },
+  { q: "Combien font 2 + 2 ?", a: ["3","4","5"], correct: 1 },
+  { q: "Quel langage sert à styliser les pages web ?", a: ["HTML","CSS","Python"], correct: 1 },
+  { q: "Combien de continents y a-t-il ?", a: ["5","6","7"], correct: 2 },
+  { q: "Quelle est la planète la plus proche du Soleil ?", a: ["Mercure","Vénus","Mars"], correct: 0 },
+  { q: "Qui a peint la Joconde ?", a: ["Michel-Ange","Léonard de Vinci","Raphaël"], correct: 1 },
+  { q: "Quelle est la langue officielle du Brésil ?", a: ["Espagnol","Portugais","Anglais"], correct: 1 },
+  { q: "Combien de couleurs dans un arc-en-ciel ?", a: ["6","7","8"], correct: 1 },
+  { q: "Quel est le plus grand océan ?", a: ["Atlantique","Pacifique","Indien"], correct: 1 },
+  { q: "Quelle est la monnaie du Japon ?", a: ["Yen","Dollar","Euro"], correct: 0 },
+  { q: "Qui a écrit 'Les Misérables' ?", a: ["Victor Hugo","Émile Zola","Molière"], correct: 0 },
+  { q: "Quelle est la capitale de l'Australie ?", a: ["Sydney","Melbourne","Canberra"], correct: 2 }
+];
+
+let questions = [];
+let index = 0, score = 0;
+const quizDiv = document.getElementById("quiz");
+
+function melanger(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function showQuestion() {
+  if (index >= questions.length) {
+    document.getElementById("result").innerText = "Score final : " + score + "/" + questions.length;
+    quizDiv.innerHTML = "";
+    return;
+  }
+
+  let q = questions[index];
+  quizDiv.innerHTML = `<div class='question'>${q.q}</div>`;
+  q.a.forEach((rep, i) => {
+    let btn = document.createElement("button");
+    btn.innerText = rep;
+    btn.onclick = () => {
+      if (i === q.correct) score++;
+      index++;
+      showQuestion();
+    };
+    quizDiv.appendChild(btn);
+  });
+}
+
+function recommencer() {
+  questions = melanger(toutesQuestions).slice(0, 10); // prendre 10 questions aléatoires
+  index = 0;
+  score = 0;
+  document.getElementById("result").innerText = "";
+  showQuestion();
+}
+
+// Initialisation
+recommencer();
+</script>
+</body>
+</html>

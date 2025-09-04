@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Tir au ballon</title>
+<style>
+  body { 
+    font-family: Arial; 
+    text-align: center; 
+    background-color: #00008b; /* fond bleu foncé */
+    color: white; 
+    overflow: hidden; 
+    margin: 0; 
+    padding: 0;
+  }
+  .bulle { 
+    position: absolute; 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    background: red; 
+    cursor: pointer; 
+  }
+  #score { 
+    font-size: 1.5em; 
+    margin-top: 10px;
+  }
+  button { 
+    margin: 10px;
+    padding: 10px 15px; 
+    font-size: 16px; 
+    border-radius: 5px; 
+    border: none; 
+    cursor: pointer; 
+    background-color: white; 
+    color: black; 
+    transition: transform 0.2s;
+  }
+  button:hover { transform: scale(1.05); }
+</style>
+</head>
+<body>
+<h1>Tir au ballon 🎈</h1>
+<p id="score">Score : 0</p>
+<button id="rejouer">🔄 Recommencer</button>
+<button onclick="window.location.href='jeux.html'">⬅ Retour aux mini-jeux</button>
+
+<script>
+let score = 0;
+let intervalID;
+let gameOver = false;
+
+function creerBulle(){
+  if(gameOver) return;
+
+  // Créer 1 à 3 ballons à chaque intervalle
+  let nb = Math.floor(Math.random()*3) + 1;
+  for(let i=0;i<nb;i++){
+    let bulle = document.createElement('div');
+    bulle.className = 'bulle';
+    bulle.style.left = Math.random()*(window.innerWidth-50) + 'px';
+    bulle.style.top = window.innerHeight + 'px';
+    document.body.appendChild(bulle);
+
+    bulle.onclick = ()=>{
+      if(gameOver) return;
+      score++; 
+      document.getElementById('score').textContent = 'Score : ' + score;
+      document.body.removeChild(bulle);
+    }
+
+    let id = setInterval(()=>{
+      if(gameOver){ clearInterval(id); return; }
+      let top = parseInt(bulle.style.top);
+      if(top <= -50){ 
+        // ballon atteint le haut → game over
+        clearInterval(id);
+        if(!gameOver){
+          gameOver = true;
+          alert("💀 Perdu ! Votre score : " + score);
+        }
+        bulle.remove();
+      } else bulle.style.top = top - 2 + 'px';
+    },10);
+  }
+}
+
+function demarrerJeu(){
+  score = 0;
+  gameOver = false;
+  document.getElementById('score').textContent = 'Score : ' + score;
+
+  // Supprimer les anciens ballons
+  document.querySelectorAll('.bulle').forEach(b => b.remove());
+
+  clearInterval(intervalID);
+  intervalID = setInterval(creerBulle, 1500); // 1,5 sec entre vagues
+}
+
+// Bouton recommencer
+document.getElementById('rejouer').onclick = demarrerJeu;
+
+// Lancer le jeu au départ
+demarrerJeu();
+</script>
+</body>
+</html>

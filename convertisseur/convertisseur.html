@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convertisseur d'unités</title>
+  <link rel="stylesheet" href="convertisseur.css">
+</head>
+<body>
+  <!-- Conteneur global pour centrer le convertisseur et le bouton -->
+  <div class="convertisseur-container">
+    <div class="convertisseur">
+      <h1>Convertisseur d'unités</h1>
+
+      <div class="champs">
+        <input type="number" id="valeur" placeholder="Entrez une valeur">
+        
+        <select id="uniteDe">
+          <option value="m">Mètres</option>
+          <option value="km">Kilomètres</option>
+          <option value="cm">Centimètres</option>
+        </select>
+
+        <select id="uniteVers">
+          <option value="m">Centimètres</option>
+          <option value="km">Mètres</option>
+          <option value="cm">Kilomètres</option>
+        </select>
+      </div>
+
+      <button onclick="convertir()">Convertir</button>
+      <div id="resultat"></div>
+    </div>
+
+    <!-- Bouton retour placé sous la boîte du convertisseur -->
+    <a href="../index.html" class="bouton-retour">← Retour au site principal</a>
+  </div>
+
+  <script src="convertisseur.js"></script>
+</body>
+</html>

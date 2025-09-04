@@ -1,0 +1,195 @@
+/* Variable pour la hauteur du divider */
+:root {
+    --divider-height: 10px; /* change cette valeur selon la hauteur souhaitée */
+}
+
+/* Arrière-plan dégradé du vert pâle au rose pâle */  
+body { 
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #000000, #5e5d5d);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* place le contenu en haut */
+    align-items: center;     
+    height: 100vh;           
+    text-align: center;
+    padding-top: 30px; /* ajuste la hauteur du titre depuis le haut */
+}
+
+/* Titre et sous-titre */
+header h1 {
+    margin: 0;            
+    font-size: 5em;
+    color: #c2087e; /* rose pastel */
+}
+
+header h2 {
+    margin: 5px 0 20px 0; /* réduit l’espace au-dessus et en-dessous */
+    font-size: 3em;
+    color: #6e686c;
+}
+
+/* Bloc des icônes */
+.icones {
+    display: flex;
+    justify-content: center;
+    gap: 170px; 
+}
+
+/* Style des liens */
+.icones a {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 1.5em;
+}
+
+/* Images des icônes (hors fleur) */
+.icones img:not(.fleur-logo) {
+    width: 300px;
+    height: 300px;
+    transition: transform 0.2s;
+}
+
+.icones img:not(.fleur-logo):hover {
+    transform: scale(1.05);
+}
+
+footer {
+    position: fixed;      
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2); 
+    color: white;
+    text-align: center;
+    padding: 2px 0;
+    font-size: 0.9em;
+}
+
+/* Conteneur pour fleur + texte Wordpress + checklist */
+.fleur-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column; /* met les éléments en colonne */
+    align-items: flex-start; /* aligne à gauche */
+    z-index: 10;
+}
+
+.jeux-container img:hover {
+    transform: scale(1.1); 
+}
+
+.convertisseur-logo:hover {
+    transform: scale(1.1); /* léger effet au survol */
+}
+
+/* Optionnel : hover sur checklist */
+.checklist-logo:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+/* Tous les textes sous les logos en blanc */
+.fleur-texte,
+.checklist-texte,
+.rgpd-texte,
+.jeux-text,         /* mini-jeux */
+.convertisseur-text, /* convertisseur */
+.cv-text,           /* CV */
+.anssi-texte,
+.linkedin-text {    /* LinkedIn */
+    color: white; 
+    text-shadow: 1px 1px 2px black;
+}
+
+/* ===== Ajout pour disposition en deux colonnes ===== */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 1200px;
+    gap: 20px; /* espace entre les colonnes et le trait */
+    margin-top: 30px; /* espace sous le sous-titre */
+}
+
+/* Divider vertical */
+.divider {
+    width: 2px;                /* épaisseur de la barre */
+    height: 550px;
+    background-color: #a29e9e; /* couleur blanche pour contraster */
+    margin: -200px;            /* espace entre la barre et les colonnes */
+    align-self: center;       /* la barre prend toute la hauteur des colonnes */
+}
+
+
+/* Uniformisation et réduction des logos */
+.icone-logo,
+.fleur-logo,
+.checklist-logo,
+.convertisseur-logo,
+.jeux-logo,
+.anssi-logo,
+.rgpd-logo {
+    width: 100px; /* taille réduite pour tenir dans la page */
+    height: 100px;
+    transition: transform 0.2s;
+}
+
+.icone-logo:hover,
+.fleur-logo:hover,
+.checklist-logo:hover,
+.convertisseur-logo:hover,
+.jeux-logo:hover,
+.anssi-logo:hover,
+.rgpd-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Texte à droite des logos */
+.left-column a {
+    display: flex;
+    flex-direction: row; /* texte à droite du logo */
+    align-items: center;
+    gap: 10px; /* espace entre logo et texte */
+    text-decoration: none;
+}
+.right-column a {
+    display: flex;
+    flex-direction: row; /* texte à droite du logo */
+    align-items: center;
+    gap: 10px; /* espace entre logo et texte */
+    text-decoration: none;
+}
+/* ===== Ajout pour disposition en deux colonnes ===== */
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr; /* gauche | divider | droite */
+    grid-auto-rows: min-content;        /* chaque ligne prend la hauteur minimale nécessaire */
+    gap: 20px;
+    align-items: center;                /* aligne verticalement les éléments de chaque ligne */
+    padding-left: 400px;                /* conserve le décalage vers la droite */
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* texte aligné à gauche du logo */
+    justify-content: center; /* centre verticalement les logos */
+    flex: 1;
+    gap: 20px; /* espace entre les logos */
+}
+.right-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* texte aligné à gauche du logo */
+    justify-content: center; /* centre verticalement les logos */
+    flex: 1;
+    gap: 20px; /* espace entre les logos */
+}
